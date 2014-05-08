@@ -56,6 +56,9 @@ class AppKernel extends Kernel
 Configuration
 -------------
 
+You need to setup at least one connection in the `connections` pool and specify it with the `default_connection` property.
+The mandatory properties are: `url`, `api_user` and `api_key`.
+
 ```yaml
 # app/config/config.yml
 
@@ -84,8 +87,8 @@ magento:
 ```
 
 
-Usage
------
+Details
+-------
 
 Service(s) provided:
 - magento
@@ -102,8 +105,11 @@ Events thrown in transport context:
 - \Smalot\MagentoBundle\MagentoEvents::PRE_MULTI_CALL
 - \Smalot\MagentoBundle\MagentoEvents::POST_MULTI_CALL
 
-```php
+Sample codes
+------------
 
+Using the default connection:
+```php
 class MagentoController extends Controller
 {
     /**
@@ -111,10 +117,11 @@ class MagentoController extends Controller
      */
     public function indexAction(Request $request)
     {
+        // Retrieve default connection.
         $magento = $this->get('magento')->getManager();
 
         if ($magento->ping()) {
-            // Call any module's class
+            // Call any module's class.
             $categoryManager = new \Smalot\Magento\Catalog\Category($magento);
             $tree            = $categoryManager->getTree()->execute();
         } else {
@@ -126,5 +133,10 @@ class MagentoController extends Controller
         return new Response('<html><body><pre>' . var_export($tree, true) . '</pre></body></html>');
     }
 }
+```
 
+The connection can be specified manually if needed:
+
+```php
+$magento = $this->get('magento')->getManager('second_connection_name');
 ```
