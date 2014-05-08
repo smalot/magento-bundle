@@ -6,6 +6,7 @@ This project is a bridge between Symfony 2 and Magento-Client API which allow to
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/smalot/magento-bundle/badges/quality-score.png?s=87b024c3507f568829ec4f29fc48df3e831e411b)](https://scrutinizer-ci.com/g/smalot/magento-bundle/)
 [![Total Downloads](https://poser.pugx.org/smalot/magento-bundle/downloads.png)](https://packagist.org/packages/smalot/magento-bundle)
 [![Current Version](https://poser.pugx.org/smalot/magento-bundle/v/stable.png)](https://packagist.org/packages/smalot/magento-bundle)
+[![License](https://poser.pugx.org/smalot/magento-bundle/license.png)](https://packagist.org/packages/smalot/magento-bundle)
 
 Allows :
 - wrappers for each call
