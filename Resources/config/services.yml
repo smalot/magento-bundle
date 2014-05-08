@@ -1,0 +1,23 @@
+parameters:
+    magento.factory.class:        Smalot\MagentoBundle\Adapter\FactoryAdapter
+    magento.remote_adapter.class: Smalot\MagentoBundle\Adapter\RemoteAdapter
+    magento.collector.class:      Smalot\MagentoBundle\DataCollector\MagentoDataCollector
+    magento.logger.class:         Smalot\MagentoBundle\Logger\MagentoLogger
+
+    magento.profiler.template:    MagentoBundle:Collector:profiler.html.twig
+
+services:
+    magento:
+        class: %magento.factory.class%
+        arguments: [%magento.remote_adapter.class%, @event_dispatcher, @magento.logger]
+        calls:
+            - [ setContainer,[ @service_container ] ]
+
+    magento.data_collector:
+        class: %magento.collector.class%
+        arguments: [@magento.logger]
+        tags:
+            - { name: data_collector, template: %magento.profiler.template%, id: "magento" }
+
+    magento.logger:
+        class: %magento.logger.class%
