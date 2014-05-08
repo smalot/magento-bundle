@@ -62,7 +62,7 @@ The mandatory properties are: `url`, `api_user` and `api_key`.
 ```yaml
 # app/config/config.yml
 
-# Default configuration for extension with alias: "magento"
+# Sample configuration
 magento:
     # Refers to the default connection in the connection pool
     default_connection:   default # Example: default
