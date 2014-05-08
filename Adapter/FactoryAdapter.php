@@ -135,7 +135,9 @@ class FactoryAdapter extends ContainerAware
                 $name = $this->settings['default_connection'];
             } else {
                 if (null === $this->settings['default_connection'] && count($this->settings['connections']) == 1) {
-                    $name = key($this->settings['connections']);
+                    /** @var array $connections */
+                    $connections = $this->settings['connections'];
+                    $name        = key($connections);
                 }
             }
         }
