@@ -8,7 +8,7 @@ Allows :
 - dependencies injections
 - event listeners
 - debug toolbar integration
-- and ... code completion.
+- and ... code completion
 
 Requirements
 ============
@@ -108,7 +108,7 @@ Events thrown in transport context:
 Sample codes
 ------------
 
-Using the default connection:
+Using the `default` connection:
 ```php
 class MagentoController extends Controller
 {
