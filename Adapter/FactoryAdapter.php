@@ -17,6 +17,7 @@ use Smalot\Magento\RemoteAdapterInterface;
 use Smalot\MagentoBundle\Logger\LoggerInterface;
 use Smalot\MagentoBundle\MagentoException;
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -67,6 +68,21 @@ class FactoryAdapter extends ContainerAware
     }
 
     /**
+     * Sets the Container associated with this Controller.
+     *
+     * @param ContainerInterface $container A ContainerInterface instance
+     *
+     * @api
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        parent::setContainer($container);
+
+        // Load settings.
+        $this->settings = $this->container->getParameter('magento');
+    }
+
+    /**
      * @param string $name
      * @param array  $options
      * @param bool   $autoLogin
@@ -76,20 +92,8 @@ class FactoryAdapter extends ContainerAware
      */
     public function getManager($name = null, $options = array(), $autoLogin = true)
     {
-        if (null === $this->settings) {
-            $this->settings = $this->container->getParameter('magento');
-        }
-
-        // Use default connection.
-        if (null === $name) {
-            if (isset($this->settings['default_connection'])) {
-                $name = $this->settings['default_connection'];
-            } else {
-                if (null === $this->settings['default_connection'] && count($this->settings['connections']) == 1) {
-                    $name = key($this->settings['connections']);
-                }
-            }
-        }
+        // Get default connection if necessary.
+        $name = $this->getConnectionName($name);
 
         // Check availability of connection name.
         if (empty($name) || !isset($this->settings['connections'][$name])) {
@@ -112,18 +116,53 @@ class FactoryAdapter extends ContainerAware
                 $class = $this->defaultClass;
             }
 
-            /** @var RemoteAdapter $instance */
-            $instance = new $class($name, $settings['url'], $settings['api_user'], $settings['api_key'], $options, $autoLogin);
-            /** @var EventDispatcherInterface $dispatcher */
-            $dispatcher = (null !== $settings['dispatcher'] ? $settings['dispatcher'] : $this->dispatcher);
-            $instance->setDispatcher($dispatcher);
-            /** @var LoggerInterface $logger */
-            $logger = (null !== $settings['logger'] && $settings['logging'] ? $settings['logger'] : $this->logger);
-            $instance->setLogger($logger);
-
-            $this->instances[$name] = $instance;
+            $this->instances[$name] = $this->createInstance($name, $class, $settings, $options, $autoLogin);
         }
 
         return $this->instances[$name];
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return string
+     */
+    protected function getConnectionName($name)
+    {
+        // Use default connection.
+        if (null === $name) {
+            if (isset($this->settings['default_connection'])) {
+                $name = $this->settings['default_connection'];
+            } else {
+                if (null === $this->settings['default_connection'] && count($this->settings['connections']) == 1) {
+                    $name = key($this->settings['connections']);
+                }
+            }
+        }
+
+        return $name;
+    }
+
+    /**
+     * @param string $name
+     * @param string $class
+     * @param array  $settings
+     * @param array  $options
+     * @param bool   $autoLogin
+     *
+     * @return RemoteAdapter
+     */
+    protected function createInstance($name, $class, $settings, $options = array(), $autoLogin = true)
+    {
+        /** @var RemoteAdapter $instance */
+        $instance = new $class($name, $settings['url'], $settings['api_user'], $settings['api_key'], $options, $autoLogin);
+        /** @var EventDispatcherInterface $dispatcher */
+        $dispatcher = (null !== $settings['dispatcher'] ? $settings['dispatcher'] : $this->dispatcher);
+        $instance->setDispatcher($dispatcher);
+        /** @var LoggerInterface $logger */
+        $logger = (null !== $settings['logger'] && $settings['logging'] ? $settings['logger'] : $this->logger);
+        $instance->setLogger($logger);
+
+        return $instance;
     }
 }
