@@ -13,7 +13,6 @@
 
 namespace Smalot\MagentoBundle\Event;
 
-use Smalot\Magento\MultiCallQueueInterface;
 use Smalot\Magento\RemoteAdapterInterface;
 use Symfony\Component\EventDispatcher\Event;
 

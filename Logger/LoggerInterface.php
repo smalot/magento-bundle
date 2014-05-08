@@ -31,6 +31,7 @@ interface LoggerInterface
      * @param string $type
      * @param string $output
      * @param bool   $onError
+     * @return void
      */
     public function stop($logNumber, $connection, $type, $output = '', $onError = false);
 
