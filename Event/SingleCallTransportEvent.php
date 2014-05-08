@@ -15,20 +15,14 @@ namespace Smalot\MagentoBundle\Event;
 
 use Smalot\Magento\ActionInterface;
 use Smalot\Magento\RemoteAdapterInterface;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Class SingleCallTransportEvent
  *
  * @package Smalot\MagentoBundle\Event
  */
-class SingleCallTransportEvent extends Event
+class SingleCallTransportEvent extends AbstractEvent
 {
-    /**
-     * @var \Smalot\Magento\RemoteAdapterInterface
-     */
-    protected $remoteAdapter;
-
     /**
      * @var ActionInterface
      */
@@ -49,14 +43,6 @@ class SingleCallTransportEvent extends Event
         $this->remoteAdapter = $remoteAdapter;
         $this->action        = $action;
         $this->result        = $result;
-    }
-
-    /**
-     * @return \Smalot\Magento\RemoteAdapterInterface
-     */
-    public function getRemoteAdapter()
-    {
-        return $this->remoteAdapter;
     }
 
     /**

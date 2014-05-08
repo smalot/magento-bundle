@@ -14,20 +14,14 @@
 namespace Smalot\MagentoBundle\Event;
 
 use Smalot\Magento\RemoteAdapterInterface;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Class SecurityEvent
  *
  * @package Smalot\MagentoBundle\Event
  */
-class SecurityEvent extends Event
+class SecurityEvent extends AbstractEvent
 {
-    /**
-     * @var \Smalot\Magento\RemoteAdapterInterface
-     */
-    protected $remoteAdapter;
-
     /**
      * @var string
      */
@@ -55,14 +49,6 @@ class SecurityEvent extends Event
         $this->apiUser       = $apiUser;
         $this->apiKey        = $apiKey;
         $this->sessionId     = $sessionId;
-    }
-
-    /**
-     * @return \Smalot\Magento\RemoteAdapterInterface
-     */
-    public function getRemoteAdapter()
-    {
-        return $this->remoteAdapter;
     }
 
     /**

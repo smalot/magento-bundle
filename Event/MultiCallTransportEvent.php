@@ -15,20 +15,14 @@ namespace Smalot\MagentoBundle\Event;
 
 use Smalot\Magento\MultiCallQueueInterface;
 use Smalot\Magento\RemoteAdapterInterface;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Class MultiCallTransportEvent
  *
  * @package Smalot\MagentoBundle\Event
  */
-class MultiCallTransportEvent extends Event
+class MultiCallTransportEvent extends AbstractEvent
 {
-    /**
-     * @var \Smalot\Magento\RemoteAdapterInterface
-     */
-    protected $remoteAdapter;
-
     /**
      * @var MultiCallQueueInterface
      */
@@ -49,14 +43,6 @@ class MultiCallTransportEvent extends Event
         $this->remoteAdapter = $remoteAdapter;
         $this->queue         = $queue;
         $this->results       = $results;
-    }
-
-    /**
-     * @return \Smalot\Magento\RemoteAdapterInterface
-     */
-    public function getRemoteAdapter()
-    {
-        return $this->remoteAdapter;
     }
 
     /**
