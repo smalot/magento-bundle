@@ -50,7 +50,7 @@ class AppKernel extends Kernel
     {
         $bundles = array(
             # ...
-            new Smalot\MagentoBundle(),
+            new Smalot\MagentoBundle\MagentoBundle(),
         );
 
         return $bundles;
