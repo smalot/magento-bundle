@@ -8,16 +8,16 @@ parameters:
 
 services:
     magento:
-        class: %magento.factory.class%
-        arguments: [%magento.remote_adapter.class%, @event_dispatcher, @magento.logger]
+        class: '%magento.factory.class%'
+        arguments: ['%magento.remote_adapter.class%', '@event_dispatcher', '@magento.logger']
         calls:
-            - [ setContainer,[ @service_container ] ]
+            - [ 'setContainer' ,[ '@service_container' ] ]
 
     magento.data_collector:
-        class: %magento.collector.class%
-        arguments: [@magento.logger]
+        class: '%magento.collector.class%'
+        arguments: ['@magento.logger']
         tags:
-            - { name: data_collector, template: %magento.profiler.template%, id: "magento" }
+            - { name: 'data_collector', template: '%magento.profiler.template%', id: 'magento' }
 
     magento.logger:
-        class: %magento.logger.class%
+        class: '%magento.logger.class%'
