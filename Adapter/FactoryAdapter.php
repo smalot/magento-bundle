@@ -16,7 +16,7 @@ namespace Smalot\MagentoBundle\Adapter;
 use Smalot\Magento\RemoteAdapterInterface;
 use Smalot\MagentoBundle\Logger\LoggerInterface;
 use Smalot\MagentoBundle\MagentoException;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -25,7 +25,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * @package Smalot\MagentoBundle\Adapter
  */
-class FactoryAdapter extends ContainerAware
+class FactoryAdapter implements ContainerAwareInterface
 {
     /**
      * @var array
@@ -43,14 +43,19 @@ class FactoryAdapter extends ContainerAware
     protected $settings;
 
     /**
-     * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+     * @var EventDispatcherInterface
      */
     protected $dispatcher;
 
     /**
-     * @var \Smalot\MagentoBundle\Logger\LoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
     /**
      * @param string                   $defaultClass
@@ -76,7 +81,7 @@ class FactoryAdapter extends ContainerAware
      */
     public function setContainer(ContainerInterface $container = null)
     {
-        parent::setContainer($container);
+        $this->container = $container;
 
         // Load settings.
         $this->settings = $this->container->getParameter('magento');
