@@ -106,4 +106,11 @@ class MagentoDataCollector extends DataCollector
     {
         return 'magento';
     }
+    
+    /**
+     * 
+     */
+    public function reset() {
+        $this->data = array();
+    }
 }

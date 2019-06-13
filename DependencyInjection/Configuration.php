@@ -28,10 +28,9 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('magento');
+        $treeBuilder = new TreeBuilder('magento');
 
-        $rootNode
+        $treeBuilder->getRootNode()
           ->children()
             ->arrayNode('connections')->info('List all available connections')
                 ->requiresAtLeastOneElement()
